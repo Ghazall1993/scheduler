@@ -23,7 +23,6 @@ function getInterview(state, interview) {
   }
 
   const interviewer = state.interviewers[interview.interviewer];
-  // console.log("interviewrrr: ", interviewer);
   return {
     ...interview,
     interviewer,
@@ -32,24 +31,17 @@ function getInterview(state, interview) {
 
 
 function getInterviewersForDay(state, day) {
-  const result = new Set()
+  const dayObj = state.days.find(elem => elem.name === day);
 
-  const findInterviewers = state.days.filter(elem => elem.name === day);
-
-  if (state.days.length === 0 || findInterviewers[0] === undefined) {
+  if (state.days.length === 0 || dayObj === undefined) {
     return [];
   }
-console.log("findInterviewers[0]: ",findInterviewers[0]);
-  for (const app of findInterviewers[0].appointments) {
-    for (const key in state.appointments) {
-      if (app === state.appointments[key].id) {
-        if (state.appointments[key].interview !== null){
-          result.add(state.interviewers[state.appointments[key].interview.interviewer])
-        }
-      }
-    }
+  if (dayObj.interviewers) {
+    return dayObj.interviewers.map((interviewerId) => {
+      return state.interviewers[interviewerId]
+    })
+  } else {
+    return []
   }
-  return Array.from(result);
 }
-
-module.exports = { getAppointmentsForDay, getInterview,getInterviewersForDay }
+module.exports = { getAppointmentsForDay, getInterview, getInterviewersForDay }

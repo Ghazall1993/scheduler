@@ -18,7 +18,7 @@ export default function useApplicationData() {
 
   // add an appoinment both in client and server
   function bookInterview(id, interview) {
-    console.log(id, interview);
+    const alreadyBooked=state.appointments[id].interview
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -31,7 +31,7 @@ export default function useApplicationData() {
     return axios.put(`http://localhost:8001/api/appointments/${id}`, { interview: appointment.interview })
       .then((response) => {
         if (response.status === 204) {
-          getDayFromAppointment(id).spots --
+          !alreadyBooked && getDayFromAppointment(id).spots --
           setState({ ...state, appointments })
         }
       });
