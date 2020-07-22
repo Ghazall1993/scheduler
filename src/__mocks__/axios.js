@@ -4,7 +4,7 @@ const fixtures = {
     {
       id: 1,
       name: "Monday",
-      appointments: [1, 2],
+      appointments: [1, 2,3],
       interviewers: [1, 2],
       spots: 1
     },
@@ -61,6 +61,16 @@ export default {
       statusText: "No Content"
     })
   }),
+
+  delete: jest.fn(url => {
+    return Promise.resolve({
+      status: 204,
+      statusText: "No Content",
+      data: fixtures.appointments
+    })
+
+  }),
+
   get: jest.fn(url => {
     if (url === "http://localhost:8001/api/days") {
       return Promise.resolve({
